@@ -3,7 +3,7 @@
 # 1、直接安装
 
 ```
-bash <(curl -Ls https://raw.githubusercontent.com/ppoonk/V2bX/main/scripts/install.sh)
+bash <(curl -Ls https://raw.githubusercontent.com/AirGo-Official/AV/main/scripts/install.sh)
 ```
 
 # 2、docker 安装

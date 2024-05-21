@@ -1,0 +1,1 @@
+CGO_ENABLED=0 GOOS=linux GOARCH=arm64 go build -o AV -tags "sing xray with_reality_server with_quic with_grpc with_utls with_wireguard with_acme" -trimpath -ldflags='-s -w'

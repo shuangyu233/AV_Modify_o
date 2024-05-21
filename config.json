@@ -1,0 +1,82 @@
+{
+  "Log": {
+    "Level": "info",
+    "Output": ""
+  },
+  "Cores": [
+    {
+      "Type": "sing",
+      "Log": {
+        "Level": "error",
+        "Timestamp": true
+      },
+      "DnsConfigPath": "",
+      "NTP": {
+        "Enable": false,
+        "Server": "time.apple.com",
+        "ServerPort": 0
+      }
+    }
+  ],
+  "Nodes": [
+    {
+      "Core": "sing",
+      "ApiHost": "http://192.168.0.61:8899",
+      "ApiKey": "airgo",
+      "NodeID": 1,
+      "NodeType": "vless",
+      "Timeout": 30,
+      "ListenIP": "0.0.0.0",
+      "SendIP": "0.0.0.0",
+      "EnableProxyProtocol": false,
+      "EnableDNS": true,
+      "DomainStrategy": "ipv4_only",
+      "LimitConfig": {
+        "EnableRealtime": false,
+        "SpeedLimit": 0,
+        "IPLimit": 0,
+        "ConnLimit": 0,
+        "EnableDynamicSpeedLimit": false,
+        "DynamicSpeedLimitConfig": {
+          "Periodic": 60,
+          "Traffic": 1000,
+          "SpeedLimit": 100,
+          "ExpireTime": 60
+        }
+      }
+    },
+    {
+      "Core": "sing",
+      "ApiHost": "http://192.168.0.61:8899",
+      "ApiKey": "airgo",
+      "NodeID": 2,
+      "NodeType": "hysteria2",
+      "Timeout": 30,
+      "ListenIP": "0.0.0.0",
+      "SendIP": "0.0.0.0",
+      "EnableProxyProtocol": false,
+      "EnableDNS": true,
+      "DomainStrategy": "ipv4_only",
+      "LimitConfig": {
+        "EnableRealtime": false,
+        "SpeedLimit": 0,
+        "IPLimit": 0,
+        "ConnLimit": 0,
+        "EnableDynamicSpeedLimit": false,
+        "DynamicSpeedLimitConfig": {
+          "Periodic": 60,
+          "Traffic": 1000,
+          "SpeedLimit": 100,
+          "ExpireTime": 60
+        }
+      },
+      "CertConfig": {
+        "CertMode": "self",
+        "RejectUnknownSni": false,
+        "CertDomain": "m.airgo.link",
+        "CertFile": "scripts/fullchain.cer",
+        "KeyFile": "scripts/key.key"
+      }
+    }
+  ]
+}
