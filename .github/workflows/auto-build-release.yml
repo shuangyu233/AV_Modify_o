@@ -1,0 +1,58 @@
+name: Auto build release
+on:
+  release:
+    types: [created]
+
+permissions:
+  contents: write
+  packages: write
+
+jobs:
+  releases-matrix:
+    name: Release Go Binary
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        goos: [windows, freebsd, linux, darwin]
+        goarch: [amd64, 386, arm64, arm]
+        exclude:
+          - goarch: 386
+            goos: darwin
+          - goarch: arm
+            goos: darwin
+
+          - goarch: arm
+            goos: windows
+          - goarch: 386
+            goos: windows
+
+          - goarch: arm
+            goos: freebsd
+          - goarch: 386
+            goos: freebsd
+
+      fail-fast: false
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Get version
+        id: get_version
+        run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}
+
+      - name: Set version
+        run: |
+          sed -i 's/DevVersion/${{ steps.get_version.outputs.VERSION }}/g' cmd/version.go
+
+      - name: Build server
+        uses: wangyoucao577/go-release-action@master
+        with:
+          github_token: ${{ secrets.ACTION_TOKEN }}
+          goos: ${{ matrix.goos }}
+          goarch: ${{ matrix.goarch }}
+          goversion: 1.22.0
+          binary_name: AV
+          extra_files: LICENSE config.json
+          pre_command: export CGO_ENABLED=0
+          build_flags: -trimpath -tags sing,xray,with_reality_server,with_quic,with_grpc,with_utls,with_wireguard,with_acme
+          ldflags: -s -w
