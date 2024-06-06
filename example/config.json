@@ -1,48 +1,82 @@
 {
-  "Log": {
-    "Level": "info",
-    "Output": ""
-  },
-  "Cores": [
-    {
-      "Type": "sing",
-      "Log": {
-        "Level": "error",
-        "Timestamp": true
-      },
-      "NTP": {
-        "Enable": true,
-        "Server": "time.apple.com",
-        "ServerPort": 0
-      }
-    }
-  ],
-  "Nodes": [
-    {
-      "Core": "sing",
-      "ApiHost": "http://127.0.0.1",
-      "ApiKey": "test",
-      "NodeID": 33,
-      "NodeType": "shadowsocks",
-      "Timeout": 30,
-      "ListenIP": "0.0.0.0",
-      "SendIP": "0.0.0.0",
-      "EnableProxyProtocol": false,
-      "EnableDNS": true,
-      "DomainStrategy": "ipv4_only",
-      "LimitConfig": {
-        "EnableRealtime": false,
-        "SpeedLimit": 0,
-        "IPLimit": 0,
-        "ConnLimit": 0,
-        "EnableDynamicSpeedLimit": false,
-        "DynamicSpeedLimitConfig": {
-          "Periodic": 60,
-          "Traffic": 1000,
-          "SpeedLimit": 100,
-          "ExpireTime": 60
+    "Log": {
+      "Level": "warning",      //log等级：none, error, warning, info, debug 
+      "Output": ""             //log输出路径，需要精确到文件名称
+    },
+    "Cores": [
+      {
+        "Type": "sing",
+        "Log": {
+          "Level": "error",
+          "Timestamp": true
+        },
+        "DnsConfigPath": "",        //dns分流规则
+        "NTP": {
+          "Enable": false,
+          "Server": "time.apple.com",
+          "ServerPort": 0
         }
       }
-    }
-  ]
-}
+    ],
+    "Nodes": [
+      {
+        "Core": "sing",
+        "ApiHost": "http://192.168.0.61:8899",      //面板后端地址
+        "ApiKey": "airgo",                          //节点与面板的通讯密钥
+        "NodeID": 1,                                //节点ID
+        "NodeType": "vless",                        //节点类型:vless,vmess,hysteria2,shadowsocks
+        "Timeout": 30,                              //与面板的通讯超时时间，默认30s
+        "ListenIP": "0.0.0.0",                      //监听地址，0.0.0.0表示监听全部IPV4，::表示监听全部IPV6
+        "SendIP": "0.0.0.0",
+        "EnableProxyProtocol": false,
+        "EnableDNS": true,
+        "DomainStrategy": "ipv4_only",
+        "LimitConfig": {
+          "EnableRealtime": false,
+          "SpeedLimit": 0,
+          "IPLimit": 0,
+          "ConnLimit": 0,
+          "EnableDynamicSpeedLimit": false,
+          "DynamicSpeedLimitConfig": {
+            "Periodic": 60,
+            "Traffic": 1000,
+            "SpeedLimit": 100,
+            "ExpireTime": 60
+          }
+        }
+      },                                    //同时作为多个节点时，此处需要有,分隔开
+      {
+        "Core": "sing",
+        "ApiHost": "http://192.168.0.61:8899",
+        "ApiKey": "airgo",
+        "NodeID": 2,
+        "NodeType": "hysteria2",
+        "Timeout": 30,
+        "ListenIP": "0.0.0.0",
+        "SendIP": "0.0.0.0",
+        "EnableProxyProtocol": false,
+        "EnableDNS": true,
+        "DomainStrategy": "ipv4_only",
+        "LimitConfig": {
+          "EnableRealtime": false,
+          "SpeedLimit": 0,
+          "IPLimit": 0,
+          "ConnLimit": 0,
+          "EnableDynamicSpeedLimit": false,
+          "DynamicSpeedLimitConfig": {
+            "Periodic": 60,
+            "Traffic": 1000,
+            "SpeedLimit": 100,
+            "ExpireTime": 60
+          }
+        },
+        "CertConfig": {                         //证书配置相关
+          "CertMode": "self",
+          "RejectUnknownSni": false,
+          "CertDomain": "m.airgo.link",                       //证书公钥名称
+          "CertFile": "scripts/fullchain.cer",                //证书公钥路径
+          "KeyFile": "scripts/key.key"                        //证书私钥路径
+        }
+      }
+    ]
+  }

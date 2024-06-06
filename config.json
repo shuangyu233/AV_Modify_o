@@ -1,6 +1,6 @@
 {
   "Log": {
-    "Level": "info",
+    "Level": "warning",
     "Output": ""
   },
   "Cores": [
